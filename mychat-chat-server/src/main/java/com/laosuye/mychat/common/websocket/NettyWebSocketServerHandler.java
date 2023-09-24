@@ -61,6 +61,7 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
         WSBaseReq wsBaseReq = JSONUtil.toBean(text, WSBaseReq.class);
         switch (WSReqTypeEnum.of(wsBaseReq.getType())){
             case AUTHORIZE:
+                webSocketService.authorize(ctx.channel(),wsBaseReq.getData());
                 break;
             case HEARTBEAT:
                 break;

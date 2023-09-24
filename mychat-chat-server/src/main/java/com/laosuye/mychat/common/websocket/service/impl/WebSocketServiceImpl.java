@@ -106,6 +106,11 @@ public class WebSocketServiceImpl implements WebSocketService {
         sendMsg(channel,WebSocketAdapter.buildWaitAuthorizeResp());
     }
 
+    @Override
+    public void authorize(Channel channel, String token) {
+
+    }
+
     /**
      * 发送消息
      * @param channel
