@@ -12,6 +12,9 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
+import io.netty.util.Attribute;
+import io.netty.util.AttributeKey;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author laosuye
@@ -36,10 +39,14 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-        if (evt instanceof WebSocketServerProtocolHandler.HandshakeComplete){
+        if (evt instanceof WebSocketServerProtocolHandler.HandshakeComplete) {
+            String token = NettyUtil.getAttr(ctx.channel(), NettyUtil.TOKEN);
+            if (StringUtils.isNotBlank(token)) {
+                webSocketService.authorize(ctx.channel(), token);
+            }
             System.out.println("握手完成");
-        }else if(evt instanceof IdleStateEvent){
-            IdleStateEvent event = (IdleStateEvent)evt;
+        } else if (evt instanceof IdleStateEvent) {
+            IdleStateEvent event = (IdleStateEvent) evt;
             if (event.state() == IdleState.READER_IDLE) {
                 userOffline(ctx.channel());
             }
@@ -48,9 +55,10 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
 
     /**
      * 用户统一下线处理
+     *
      * @param channel
      */
-    private void userOffline(Channel channel){
+    private void userOffline(Channel channel) {
         webSocketService.remove(channel);
         channel.close();
     }
@@ -59,9 +67,9 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
         String text = msg.text();
         WSBaseReq wsBaseReq = JSONUtil.toBean(text, WSBaseReq.class);
-        switch (WSReqTypeEnum.of(wsBaseReq.getType())){
+        switch (WSReqTypeEnum.of(wsBaseReq.getType())) {
             case AUTHORIZE:
-                webSocketService.authorize(ctx.channel(),wsBaseReq.getData());
+                webSocketService.authorize(ctx.channel(), wsBaseReq.getData());
                 break;
             case HEARTBEAT:
                 break;
