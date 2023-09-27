@@ -90,7 +90,7 @@ public class WxMsgServiceImpl implements WxMsgService {
     private Integer getEventKey(WxMpXmlMessage wxMpXmlMessage) {
         try {
             String eventKey = wxMpXmlMessage.getEventKey();
-            String code = eventKey.replace("qrscenc_", "");
+            String code = eventKey.replace("qrscene_", "");
             return Integer.parseInt(code);
         } catch (Exception e) {
             log.info("getEventKey error eventKey:{}", wxMpXmlMessage.getEventKey(), e);
