@@ -1,5 +1,6 @@
 package com.laosuye.mychat.common.commm.domain.vo.resp;
 
+import com.laosuye.mychat.common.commm.exception.ErrorEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -35,6 +36,14 @@ public class ApiResult<T> {
         result.setSuccess(Boolean.FALSE);
         result.setErrCode(code);
         result.setErrMsg(msg);
+        return result;
+    }
+
+    public static <T> ApiResult<T> fail(ErrorEnum errorEnum) {
+        ApiResult<T> result = new ApiResult<T>();
+        result.setSuccess(Boolean.FALSE);
+        result.setErrCode(errorEnum.getErrorCode());
+        result.setErrMsg(errorEnum.getErrorMsg());
         return result;
     }
 
