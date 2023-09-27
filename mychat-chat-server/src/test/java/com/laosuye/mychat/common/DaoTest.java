@@ -44,9 +44,8 @@ public class DaoTest {
 
     @Test
     public void testToken(){
-        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjExMDAxLCJjcmVhdGVUaW1lIjoxNjk1NTYwODY3fQ.5QErCQpgi1z3GT8LBnGmj7m15hUwbFIdFt5sHAryAO4";
-        Long validUid = loginService.getValidUid(token);
-        System.out.println(validUid);
+        String token = loginService.login(11001L);
+        System.out.println(token);
     }
 
     @Test
