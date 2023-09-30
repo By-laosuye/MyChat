@@ -3,11 +3,17 @@ package com.laosuye.mychat.common.commm.domain.vo.resp;
 import com.laosuye.mychat.common.commm.exception.ErrorEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @ApiModel("基础返回体")
-public class ApiResult<T> {
+public class ApiResult<T> implements Serializable {
     @ApiModelProperty("成功标识true or false")
     private Boolean success;
     @ApiModelProperty("错误码")

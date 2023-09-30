@@ -1,6 +1,7 @@
 package com.laosuye.mychat.common.commm.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -26,4 +27,13 @@ public class JsonUtils {
             throw new UnsupportedOperationException(e);
         }
     }
+
+        public static <T> T toObj(String str, TypeReference<T> typeReference) {
+        try {
+            return jsonMapper.readValue(str, typeReference);
+        } catch (JsonProcessingException e) {
+            throw new UnsupportedOperationException(e);
+        }
+    }
+
 }

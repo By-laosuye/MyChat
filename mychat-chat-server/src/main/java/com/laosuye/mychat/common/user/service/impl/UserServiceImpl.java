@@ -1,5 +1,6 @@
 package com.laosuye.mychat.common.user.service.impl;
 
+import com.laosuye.mychat.common.commm.event.UserRegisterEvent;
 import com.laosuye.mychat.common.commm.util.AssertUtil;
 import com.laosuye.mychat.common.user.dao.ItemConfigDao;
 import com.laosuye.mychat.common.user.dao.UserBackpackDao;
@@ -15,6 +16,7 @@ import com.laosuye.mychat.common.user.service.UserService;
 import com.laosuye.mychat.common.user.service.adapter.UserAdapter;
 import com.laosuye.mychat.common.user.service.cache.ItemCache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,11 +38,15 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ItemConfigDao itemConfigDao;
 
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
+
     @Transactional
     @Override
     public Long register(User insert) {
         boolean save = userDao.save(insert);
-        //todo 用户注册的事件
+        // 用户注册的事件
+        applicationEventPublisher.publishEvent(new UserRegisterEvent(this,insert));
         return insert.getId();
     }
 
