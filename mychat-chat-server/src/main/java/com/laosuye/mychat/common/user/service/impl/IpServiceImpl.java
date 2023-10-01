@@ -15,9 +15,11 @@ import com.laosuye.mychat.common.user.domain.entity.User;
 import com.laosuye.mychat.common.user.service.IpService;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
@@ -27,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
-public class IpServiceImpl implements IpService {
+public class IpServiceImpl implements IpService, DisposableBean {
 
     @Autowired
     private UserDao userDao;
@@ -59,7 +61,7 @@ public class IpServiceImpl implements IpService {
         });
     }
 
-    private IpDetail tryGetIpDetailOrNullThreeTimes(String ip) {
+    private static IpDetail tryGetIpDetailOrNullThreeTimes(String ip) {
         for (int i = 0; i < 3; i++) {
             IpDetail ipDetail = getIpDetailOrNull(ip);
             if (Objects.nonNull(ipDetail)) {
@@ -75,7 +77,7 @@ public class IpServiceImpl implements IpService {
         return null;
     }
 
-    private IpDetail getIpDetailOrNull(String ip) {
+    private static IpDetail getIpDetailOrNull(String ip) {
         String url = "https://ip.taobao.com/outGetIpInfo?ip=" + ip + "&accessKey=alibaba-inc";
         String data = HttpUtil.get(url);
         try {
@@ -88,5 +90,29 @@ public class IpServiceImpl implements IpService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void main(String[] args) {
+        Date beginTime = new Date();
+        for (int i = 0; i < 100; i++) {
+            int finalI = i;
+            executor.execute(() -> {
+                IpDetail ipDetail = tryGetIpDetailOrNullThreeTimes("117.85.113.4");
+                if (Objects.nonNull(ipDetail)) {
+                    Date date = new Date();
+                    System.out.println(String.format("第%d次成功，目前耗时%dms", finalI, (date.getTime() - beginTime.getTime())));
+                }
+            });
+        }
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        executor.shutdown();
+        if (!executor.awaitTermination(30, TimeUnit.SECONDS)) {//最多等待30秒
+            if (log.isErrorEnabled()) {
+                log.error("Timed out while waiting for executor [{}] to terminate", executor);
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.laosuye.mychat.common.user.service;
 
 import com.laosuye.mychat.common.user.domain.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.laosuye.mychat.common.user.domain.vo.req.BlackReq;
 import com.laosuye.mychat.common.user.domain.vo.resp.BadgeResp;
 import com.laosuye.mychat.common.user.domain.vo.resp.UserInfoResp;
 
@@ -26,4 +27,6 @@ public interface UserService {
     List<BadgeResp> badges(Long uid);
 
     void wearingBadge(Long uid, Long itemId);
+
+    void black(BlackReq req);
 }

@@ -24,14 +24,14 @@ public class UserRegisterListener {
     private UserDao userDao;
 
     @Async
-    @TransactionalEventListener(classes = UserRegisterEvent.class, phase = TransactionPhase.AFTER_COMMIT)
+    @TransactionalEventListener(classes = UserRegisterEvent.class, phase = TransactionPhase.AFTER_COMMIT,fallbackExecution = true)
     public void sendCard(UserRegisterEvent event) {
         User user = event.getUser();
         userBackpackService.acquireItem(user.getId(), ItemEnum.MODIFY_NAME_CARD.getId(), IdempotentEnum.UID, user.getId().toString());
     }
 
     @Async
-    @TransactionalEventListener(classes = UserRegisterEvent.class, phase = TransactionPhase.AFTER_COMMIT)
+    @TransactionalEventListener(classes = UserRegisterEvent.class, phase = TransactionPhase.AFTER_COMMIT,fallbackExecution = true)
     public void sendBadge(UserRegisterEvent event) {
         User user = event.getUser();
         //前一百名注册徽章

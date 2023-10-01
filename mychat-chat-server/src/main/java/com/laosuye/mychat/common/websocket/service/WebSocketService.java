@@ -1,5 +1,6 @@
 package com.laosuye.mychat.common.websocket.service;
 
+import com.laosuye.mychat.common.websocket.domain.vo.resp.WSBaseResp;
 import io.netty.channel.Channel;
 
 public interface WebSocketService {
@@ -15,4 +16,6 @@ public interface WebSocketService {
     void waitAuthorize(Integer code);
 
     void authorize(Channel channel, String token);
+
+    void sendMsgToAll(WSBaseResp<?> msg);
 }

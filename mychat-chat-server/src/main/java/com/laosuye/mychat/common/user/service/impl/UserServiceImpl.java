@@ -1,26 +1,30 @@
 package com.laosuye.mychat.common.user.service.impl;
 
+import com.laosuye.mychat.common.commm.event.UserBlackEvent;
 import com.laosuye.mychat.common.commm.event.UserRegisterEvent;
 import com.laosuye.mychat.common.commm.util.AssertUtil;
+import com.laosuye.mychat.common.user.dao.BlackDao;
 import com.laosuye.mychat.common.user.dao.ItemConfigDao;
 import com.laosuye.mychat.common.user.dao.UserBackpackDao;
 import com.laosuye.mychat.common.user.dao.UserDao;
-import com.laosuye.mychat.common.user.domain.entity.ItemConfig;
-import com.laosuye.mychat.common.user.domain.entity.User;
-import com.laosuye.mychat.common.user.domain.entity.UserBackpack;
+import com.laosuye.mychat.common.user.domain.entity.*;
+import com.laosuye.mychat.common.user.domain.enums.BlackTypeEnum;
 import com.laosuye.mychat.common.user.domain.enums.ItemEnum;
 import com.laosuye.mychat.common.user.domain.enums.ItemTypeEnum;
+import com.laosuye.mychat.common.user.domain.vo.req.BlackReq;
 import com.laosuye.mychat.common.user.domain.vo.resp.BadgeResp;
 import com.laosuye.mychat.common.user.domain.vo.resp.UserInfoResp;
 import com.laosuye.mychat.common.user.service.UserService;
 import com.laosuye.mychat.common.user.service.adapter.UserAdapter;
 import com.laosuye.mychat.common.user.service.cache.ItemCache;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,12 +45,15 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
+    @Autowired
+    private BlackDao blackDao;
+
     @Transactional
     @Override
     public Long register(User insert) {
         boolean save = userDao.save(insert);
         // 用户注册的事件
-        applicationEventPublisher.publishEvent(new UserRegisterEvent(this,insert));
+        applicationEventPublisher.publishEvent(new UserRegisterEvent(this, insert));
         return insert.getId();
     }
 
@@ -92,6 +99,34 @@ public class UserServiceImpl implements UserService {
         ItemConfig itemConfig = itemConfigDao.getById(firstValidItem.getItemId());
         AssertUtil.equal(itemConfig.getType(), ItemTypeEnum.BADGE.getType(), "只有徽章才能佩戴");
         //佩戴徽章
-        userDao.wearingBadge(uid,itemId);
+        userDao.wearingBadge(uid, itemId);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void black(BlackReq req) {
+        Long uid = req.getUid();
+        Black user = new Black();
+        user.setType(BlackTypeEnum.UID.getType());
+        user.setTarget(uid.toString());
+        blackDao.save(user);
+        User byId = userDao.getById(uid);
+        blackIp(Optional.ofNullable(byId.getIpInfo()).map(IpInfo::getCreateIp).orElse(null));
+        blackIp(Optional.ofNullable(byId.getIpInfo()).map(IpInfo::getUpdateIp).orElse(null));
+        applicationEventPublisher.publishEvent(new UserBlackEvent(this, byId));
+    }
+
+    private void blackIp(String ip) {
+        if (StringUtils.isBlank(ip)) {
+            return;
+        }
+        try {
+            Black inset = new Black();
+            inset.setType(BlackTypeEnum.IP.getType());
+            inset.setTarget(ip);
+            blackDao.save(inset);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

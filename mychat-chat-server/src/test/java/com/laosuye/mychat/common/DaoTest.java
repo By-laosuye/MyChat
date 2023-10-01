@@ -44,7 +44,7 @@ public class DaoTest {
 
     @Test
     public void testToken(){
-        String token = loginService.login(11001L);
+        String token = loginService.login(11002L);
         System.out.println(token);
     }
 

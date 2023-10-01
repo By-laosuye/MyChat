@@ -2,11 +2,15 @@ package com.laosuye.mychat.common.user.controller;
 
 
 import com.laosuye.mychat.common.commm.domain.vo.resp.ApiResult;
+import com.laosuye.mychat.common.commm.util.AssertUtil;
 import com.laosuye.mychat.common.commm.util.RequestHolder;
+import com.laosuye.mychat.common.user.domain.enums.RoleEnum;
+import com.laosuye.mychat.common.user.domain.vo.req.BlackReq;
 import com.laosuye.mychat.common.user.domain.vo.req.ModifyNameReq;
 import com.laosuye.mychat.common.user.domain.vo.req.WearingBadgeReq;
 import com.laosuye.mychat.common.user.domain.vo.resp.BadgeResp;
 import com.laosuye.mychat.common.user.domain.vo.resp.UserInfoResp;
+import com.laosuye.mychat.common.user.service.IRoleService;
 import com.laosuye.mychat.common.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,6 +38,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private IRoleService roleService;
+
 
     @GetMapping("/userInfo")
     @ApiOperation("获取用户详细信息")
@@ -60,6 +67,17 @@ public class UserController {
     @ApiOperation("佩戴徽章")
     public ApiResult<Void> wearingBadge(@Valid @RequestBody WearingBadgeReq req) {
         userService.wearingBadge(RequestHolder.get().getUid(),req.getItemId());
+        return ApiResult.success();
+    }
+
+
+    @PutMapping("/black")
+    @ApiOperation("拉黑用户")
+    public ApiResult<Void> black(@Valid @RequestBody BlackReq req) {
+        Long uid = RequestHolder.get().getUid();
+        boolean hasPower = roleService.hasPower(uid, RoleEnum.ADMIN);
+        AssertUtil.isTrue(hasPower,"群聊管理员没有拉黑权限");
+        userService.black(req);
         return ApiResult.success();
     }
 

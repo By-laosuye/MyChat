@@ -28,8 +28,8 @@ public class UserOnlineListener {
     private IpService ipService;
 
     @Async
-    @TransactionalEventListener(classes = UserOnlineEvent.class, phase = TransactionPhase.AFTER_COMMIT)
-    public void saveDB(UserRegisterEvent event) {
+    @TransactionalEventListener(classes = UserOnlineEvent.class, phase = TransactionPhase.AFTER_COMMIT,fallbackExecution = true)
+    public void saveDB(UserOnlineEvent event) {
         User user = event.getUser();
         User update = new User();
         update.setId(user.getId());
