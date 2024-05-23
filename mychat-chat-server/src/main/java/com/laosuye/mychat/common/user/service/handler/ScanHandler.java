@@ -15,14 +15,11 @@ import org.springframework.stereotype.Component;
 import java.net.URLEncoder;
 import java.util.Map;
 
+/**
+ * 扫码得处理器
+ */
 @Component
 public class ScanHandler extends AbstractHandler {
-
-    @Value("${wx.mp.callback}")
-    private String callback;
-
-    public static final String URL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
-
 
     @Autowired
     private WxMsgService wxMsgService;

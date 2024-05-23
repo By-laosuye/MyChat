@@ -48,6 +48,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private BlackDao blackDao;
 
+    /**
+     * 用户注册
+     * @param insert 注册用户信息
+     * @return 用户id
+     */
     @Transactional
     @Override
     public Long register(User insert) {

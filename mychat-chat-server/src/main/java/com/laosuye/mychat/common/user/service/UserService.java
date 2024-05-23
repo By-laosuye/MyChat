@@ -18,6 +18,11 @@ import java.util.List;
  */
 public interface UserService {
 
+    /**
+     * 用户注册
+     * @param insert 注册用户信息
+     * @return 用户id
+     */
     Long register(User insert);
 
     UserInfoResp getUserInfo(Long uid);

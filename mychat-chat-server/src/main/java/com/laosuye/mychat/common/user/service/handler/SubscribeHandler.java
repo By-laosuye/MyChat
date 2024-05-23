@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 /**
- * @author <a href="https://github.com/binarywang">Binary Wang</a>
+ * 新用户关注得处理类
  */
 @Component
 public class SubscribeHandler extends AbstractHandler {

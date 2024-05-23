@@ -26,12 +26,23 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
     private WebSocketService webSocketService;
 
 
+    /**
+     * 用户连接事件，初始化channel，把channel保存起来
+     * @param ctx
+     * @throws Exception
+     */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         webSocketService = SpringUtil.getBean(WebSocketService.class);
+        //保存channel到map中
         webSocketService.connect(ctx.channel());
     }
 
+    /**
+     * 用户主动下线触发事件
+     * @param ctx 通道
+     * @throws Exception 异常
+     */
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         userOffline(ctx.channel());
@@ -48,6 +59,7 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
         } else if (evt instanceof IdleStateEvent) {
             IdleStateEvent event = (IdleStateEvent) evt;
             if (event.state() == IdleState.READER_IDLE) {
+                //下线
                 userOffline(ctx.channel());
             }
         }

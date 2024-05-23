@@ -39,8 +39,17 @@ public class WxMsgServiceImpl implements WxMsgService {
 
     public static final String URL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
 
+    /**
+     * openId和登陆code的映射关系map
+     */
     private static final ConcurrentHashMap<String,Integer> WAIT_AUTHORIZE_MAP = new ConcurrentHashMap<>();
 
+    /**
+     * 用户扫码登录成功
+     * @param wxMpXmlMessage 微信消息
+     * @param wxMpService 微信服务
+     * @return
+     */
     @Override
     public WxMpXmlOutMessage scan(WxMpXmlMessage wxMpXmlMessage,WxMpService wxMpService) {
         String openId = wxMpXmlMessage.getFromUser();
@@ -48,6 +57,7 @@ public class WxMsgServiceImpl implements WxMsgService {
         if (Objects.isNull(code)){
             return null;
         }
+        //根据openId查询用户信息
         User user = userDao.getByOpenId(openId);
         boolean registered = Objects.nonNull(user);
         boolean authorized = registered && StrUtil.isNotBlank(user.getAvatar());
@@ -69,6 +79,10 @@ public class WxMsgServiceImpl implements WxMsgService {
         return TextBuilder.build("请点击登录：<a href=\""+ authorizeUrl + "\">登录</a>",wxMpXmlMessage,wxMpService);
     }
 
+    /**
+     * 更新用户信息并用户授权
+     * @param userInfo 用户信息
+     */
     @Override
     public void authorize(WxOAuth2UserInfo userInfo) {
         String openid = userInfo.getOpenid();
@@ -82,11 +96,21 @@ public class WxMsgServiceImpl implements WxMsgService {
         webSocketService.scanLoginSuccess(code,user.getId());
     }
 
+    /**
+     * 更新用户信息
+     * @param uid id
+     * @param userInfo 用户信息
+     */
     private void fillUserInfo(Long uid, WxOAuth2UserInfo userInfo) {
         User user = UserAdapter.buildAuthorizeUser(uid, userInfo);
         userDao.updateById(user);
     }
 
+    /**
+     * 获取事件key
+     * @param wxMpXmlMessage 微信消息
+     * @return key
+     */
     private Integer getEventKey(WxMpXmlMessage wxMpXmlMessage) {
         try {
             String eventKey = wxMpXmlMessage.getEventKey();

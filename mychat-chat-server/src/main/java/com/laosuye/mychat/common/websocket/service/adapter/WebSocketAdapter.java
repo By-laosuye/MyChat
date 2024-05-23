@@ -11,6 +11,11 @@ import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
 
 public class WebSocketAdapter {
 
+    /**
+     * 构建获取登陆二维码的返回消息
+     * @param wxMpQrCodeTicket
+     * @return
+     */
     public static WSBaseResp<?> buildResp(WxMpQrCodeTicket wxMpQrCodeTicket) {
         WSBaseResp<WSLoginUrl> resp = new WSBaseResp<>();
         resp.setType(WSRespTypeEnum.LOGIN_URL.getType());

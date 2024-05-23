@@ -18,6 +18,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDao extends ServiceImpl<UserMapper, User> {
 
+    /**
+     * 根据openId查询用户
+     * @param openId openId
+     * @return 用户信息
+     */
     public User getByOpenId(String openId) {
         return lambdaQuery().eq(User::getOpenId, openId).one();
     }

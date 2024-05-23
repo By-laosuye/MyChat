@@ -30,7 +30,6 @@ public class WxPortalController {
 
     private final WxMpService wxService;
     private final WxMpMessageRouter messageRouter;
-    /*private final WxMsgService wxMsgService;*/
 
     @Autowired
     private WxMpService wxMpService;

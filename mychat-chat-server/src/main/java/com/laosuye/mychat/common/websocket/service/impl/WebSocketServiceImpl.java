@@ -70,8 +70,14 @@ public class WebSocketServiceImpl implements WebSocketService {
      */
     private static final ConcurrentHashMap<Channel, WSChannelExtraDTO> ONLINE_WS_MAP = new ConcurrentHashMap<>();
 
+    /**
+     * 过期时间1小时
+     */
     public static final Duration DURATION = Duration.ofHours(1);
 
+    /**
+     * 最大容量1000，超过就会淘汰
+     */
     public static final int MAXIMUM_SIZE = 1000;
 
     /**
@@ -82,11 +88,19 @@ public class WebSocketServiceImpl implements WebSocketService {
             .expireAfterWrite(DURATION)
             .build();
 
+    /**
+     * 保存channel到map中
+     * @param channel 通道
+     */
     @Override
     public void connect(Channel channel) {
         ONLINE_WS_MAP.put(channel, new WSChannelExtraDTO());
     }
 
+    /**
+     * 请求登陆二维码
+     * @param channel
+     */
     @SneakyThrows
     @Override
     public void handleLoginReq(Channel channel) {
@@ -98,12 +112,23 @@ public class WebSocketServiceImpl implements WebSocketService {
         sendMsg(channel, WebSocketAdapter.buildResp(wxMpQrCodeTicket));
     }
 
+    /**
+     * channel 断开连接
+     * @param channel
+     */
     @Override
     public void remove(Channel channel) {
+        //移除channel
         ONLINE_WS_MAP.remove(channel);
         //TODO 用户下线
     }
 
+
+    /**
+     * 扫码成功给channel推送消息
+     * @param code 登陆码
+     * @param uid 用户id
+     */
     @Override
     public void scanLoginSuccess(Integer code, Long uid) {
         //确认连接在机器上
@@ -119,6 +144,10 @@ public class WebSocketServiceImpl implements WebSocketService {
         loginSuccess(channel, user, token);
     }
 
+    /**
+     * 发送待授权的消息
+     * @param code 登陆码
+     */
     @Override
     public void waitAuthorize(Integer code) {
         Channel channel = WAIT_LOGIN_MAP.getIfPresent(code);
@@ -128,6 +157,12 @@ public class WebSocketServiceImpl implements WebSocketService {
         sendMsg(channel, WebSocketAdapter.buildWaitAuthorizeResp());
     }
 
+
+    /**
+     * 用户扫码登陆
+     * @param channel
+     * @param token
+     */
     @Override
     public void authorize(Channel channel, String token) {
         Long validUid = loginService.getValidUid(token);
@@ -163,8 +198,8 @@ public class WebSocketServiceImpl implements WebSocketService {
     /**
      * 发送消息
      *
-     * @param channel
-     * @param resp
+     * @param channel 通道
+     * @param resp 返回的消息
      */
     private void sendMsg(Channel channel, WSBaseResp<?> resp) {
         channel.writeAndFlush(new TextWebSocketFrame(JSONUtil.toJsonStr(resp)));
@@ -173,8 +208,8 @@ public class WebSocketServiceImpl implements WebSocketService {
     /**
      * 生成随机码，并把channel放入到map中
      *
-     * @param channel
-     * @return
+     * @param channel 通道
+     * @return 随机码
      */
     private Integer generateLoginCode(Channel channel) {
         Integer code;
