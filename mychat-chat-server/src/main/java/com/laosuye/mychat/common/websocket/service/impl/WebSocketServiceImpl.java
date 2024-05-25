@@ -183,6 +183,12 @@ public class WebSocketServiceImpl implements WebSocketService {
         });
     }
 
+    /**
+     * 登陆成功后绑定uid
+     * @param channel 通道
+     * @param user 用户
+     * @param token token
+     */
     private void loginSuccess(Channel channel, User user, String token) {
         //保存channel对应的uid
         WSChannelExtraDTO wsChannelExtraDTO = ONLINE_WS_MAP.get(channel);

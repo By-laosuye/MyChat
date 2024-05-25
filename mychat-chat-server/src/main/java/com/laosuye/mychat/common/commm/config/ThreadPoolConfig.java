@@ -11,6 +11,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 
+/**
+ * 线程池配置类
+ */
 @Configuration
 @EnableAsync
 public class ThreadPoolConfig implements AsyncConfigurer {
@@ -23,21 +26,31 @@ public class ThreadPoolConfig implements AsyncConfigurer {
      */
     public static final String WS_EXECUTOR = "websocketExecutor";
 
+    /**
+     * 项目中使用了@Asyn注解就会返回我们自定义的线程池
+     * @return 线程池
+     */
     @Override
     public Executor getAsyncExecutor() {
-        return mychatExecutor();
+        return myChatExecutor();
     }
 
     @Bean(MYCHAT_EXECUTOR)
     @Primary
-    public ThreadPoolTaskExecutor mychatExecutor() {
+    public ThreadPoolTaskExecutor myChatExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setWaitForTasksToCompleteOnShutdown(true); //线程池优雅停机
+        //线程池优雅停机
+        executor.setWaitForTasksToCompleteOnShutdown(true);
+        //核心线程
         executor.setCorePoolSize(10);
+        //最大线程
         executor.setMaxPoolSize(10);
+        //等待队列
         executor.setQueueCapacity(200);
+        //线程前缀
         executor.setThreadNamePrefix("mychat-executor-");
-        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());//满了调用线程执行，认为重要任务
+        //满了调用线程执行，认为重要任务已经完成
+        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         executor.setThreadFactory(new MyThreadFactory(executor));
         executor.initialize();
         return executor;

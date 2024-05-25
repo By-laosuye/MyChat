@@ -14,7 +14,8 @@ public class MyThreadFactory implements ThreadFactory {
 
     @Override
     public Thread newThread(Runnable r) {
-        Thread thread = original.newThread(r); //执行spring线程自己创建的逻辑
+        //执行spring线程自己创建的逻辑
+        Thread thread = original.newThread(r);
         //额外装饰我们自己要的逻辑
         thread.setUncaughtExceptionHandler(MY_UNCAUGHT_EXCEPTION_HANDLER);
         return thread;
