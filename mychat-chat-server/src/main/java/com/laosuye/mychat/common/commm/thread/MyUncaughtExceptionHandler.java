@@ -2,7 +2,7 @@ package com.laosuye.mychat.common.commm.thread;
 
 import lombok.extern.slf4j.Slf4j;
 
-/**
+/** 自定义线程错误
  * @author 老苏叶
  *
  */

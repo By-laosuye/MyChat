@@ -13,6 +13,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 线程池配置类
+ * @author 老苏叶
  */
 @Configuration
 @EnableAsync
@@ -61,12 +62,14 @@ public class ThreadPoolConfig implements AsyncConfigurer {
     @Primary
     public ThreadPoolTaskExecutor websocketExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setWaitForTasksToCompleteOnShutdown(true); //线程池优雅停机
+        //线程池优雅停机
+        executor.setWaitForTasksToCompleteOnShutdown(true);
         executor.setCorePoolSize(16);
         executor.setMaxPoolSize(16);
         executor.setQueueCapacity(1000);
         executor.setThreadNamePrefix("websocket-executor-");
-        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardPolicy());//满了丢弃
+        //满了丢弃
+        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardPolicy());
         executor.setThreadFactory(new MyThreadFactory(executor));
         executor.initialize();
         return executor;

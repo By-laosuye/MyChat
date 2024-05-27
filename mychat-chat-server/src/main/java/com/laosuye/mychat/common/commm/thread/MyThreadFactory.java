@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 
 import java.util.concurrent.ThreadFactory;
 
+/**
+ * 自定义线程工厂
+ * @author 老苏叶
+ */
 @AllArgsConstructor
 public class MyThreadFactory implements ThreadFactory {
 

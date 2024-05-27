@@ -159,9 +159,9 @@ public class WebSocketServiceImpl implements WebSocketService {
 
 
     /**
-     * 用户扫码登陆
-     * @param channel
-     * @param token
+     * 用户扫码登陆认证
+     * @param channel 通道
+     * @param token token
      */
     @Override
     public void authorize(Channel channel, String token) {
