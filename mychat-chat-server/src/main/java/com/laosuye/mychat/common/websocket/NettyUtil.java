@@ -4,6 +4,9 @@ import io.netty.channel.Channel;
 import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
 
+/**
+ * channel存取数据
+ */
 public class NettyUtil {
 
     public static AttributeKey<String> TOKEN = AttributeKey.valueOf("token");

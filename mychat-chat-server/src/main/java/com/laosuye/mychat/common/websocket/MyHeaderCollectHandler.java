@@ -20,6 +20,7 @@ public class MyHeaderCollectHandler extends ChannelInboundHandlerAdapter {
                     .map(UrlBuilder::getQuery)
                     .map(k -> k.get("token"))
                     .map(CharSequence::toString);
+            //如果token存在就存入channel里面
             optional.ifPresent(s -> NettyUtil.setAttr(ctx.channel(), NettyUtil.TOKEN, s.toString()));
             request.setUri(urlBuilder.getPath().toString());
             //获取ip
