@@ -11,11 +11,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * Token拦截器
+ * @author laosuye
+ */
 @Component
 public class TokenInterceptor implements HandlerInterceptor {
 
-
+    /**
+     * 请求头
+     */
     public static final String HEADER_AUTHORIZATION = "Authorization";
+    /**
+     * 请求头schema
+     */
     public static final String AUTHORIZATION_SCHEMA = "Bearer ";
     public static final String UID = "uid";
 
@@ -31,8 +40,8 @@ public class TokenInterceptor implements HandlerInterceptor {
             request.setAttribute(UID,validUid);
         }else {
             //用户未登录
-            boolean isPublicURI = isPublicURI(request);
-            if (isPublicURI){
+            boolean isPublicUri = isPublicUri(request);
+            if (isPublicUri){
                 HttpErrorEnum.ACCESS_DENIED.sendHttpError(response);
                 return false;
             }
@@ -41,12 +50,22 @@ public class TokenInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    private boolean isPublicURI(HttpServletRequest request) {
-        String requestURI = request.getRequestURI();
-        String[] split = requestURI.split("/");
+    /**
+     * 判断是否是public接口
+     * @param request 请求
+     * @return true/false
+     */
+    private boolean isPublicUri(HttpServletRequest request) {
+        String requestUri = request.getRequestURI();
+        String[] split = requestUri.split("/");
         return split.length > 2 && "public".equals(split[3]);
     }
 
+    /**
+     * 获取token
+     * @param request 请求
+     * @return token
+     */
     private String getToken(HttpServletRequest request) {
         String token = request.getHeader(HEADER_AUTHORIZATION);
         return Optional.ofNullable(token)

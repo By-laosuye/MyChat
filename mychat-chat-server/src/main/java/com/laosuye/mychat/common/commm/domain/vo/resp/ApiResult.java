@@ -9,6 +9,10 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
+/**
+ * 基础返回体
+ * @param <T>
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

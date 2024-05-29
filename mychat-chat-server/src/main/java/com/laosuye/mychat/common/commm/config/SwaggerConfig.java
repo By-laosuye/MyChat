@@ -26,6 +26,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+
+/**
+ * Swagger文档
+ */
 @Configuration
 @EnableSwagger2WebMvc
 public class SwaggerConfig {
@@ -52,6 +56,9 @@ public class SwaggerConfig {
     }
 
 
+    /**
+     * 解决springboot版本高swagger的bug
+     */
     @Bean
     public WebMvcEndpointHandlerMapping webEndpointServletHandlerMapping(WebEndpointsSupplier webEndpointsSupplier, ServletEndpointsSupplier servletEndpointsSupplier, ControllerEndpointsSupplier controllerEndpointsSupplier, EndpointMediaTypes endpointMediaTypes, CorsEndpointProperties corsProperties, WebEndpointProperties webEndpointProperties, Environment environment) {
         List<ExposableEndpoint<?>> allEndpoints = new ArrayList();

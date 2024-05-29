@@ -15,11 +15,26 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * description  用户适配器
+ * @author 老苏叶
+ */
 public class UserAdapter {
+    /**
+     * 构建保存用户信息
+     * @param openId openId
+     * @return 用户信息
+     */
     public static User buildUserSave(String openId) {
         return User.builder().openId(openId).build();
     }
 
+    /**
+     * 构建用户授权信息
+     * @param uid 用户id
+     * @param userInfo 用户授权信息
+     * @return 用户信息
+     */
     public static User buildAuthorizeUser(Long uid, WxOAuth2UserInfo userInfo) {
         User user = new User();
         user.setId(uid);
@@ -28,6 +43,12 @@ public class UserAdapter {
         return user;
     }
 
+    /**
+     * 构建用户信息
+     * @param user 用户
+     * @param modifyNameCount 修改昵称次数
+     * @return 用户信息
+     */
     public static UserInfoResp buildUserInfo(User user, Integer modifyNameCount) {
         UserInfoResp resp = new UserInfoResp();
         BeanUtil.copyProperties(user, resp);

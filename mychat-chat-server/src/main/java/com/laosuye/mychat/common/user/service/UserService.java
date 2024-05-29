@@ -25,6 +25,11 @@ public interface UserService {
      */
     Long register(User insert);
 
+    /**
+     * 获取用户信息
+     * @param uid 用户id
+     * @return 用户信息
+     */
     UserInfoResp getUserInfo(Long uid);
 
     void modifyName(Long uid, String name);

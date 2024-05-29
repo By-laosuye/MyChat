@@ -21,6 +21,12 @@ import java.util.List;
 @Service
 public class UserBackpackDao extends ServiceImpl<UserBackpackMapper, UserBackpack> {
 
+    /**
+     * 获取有效的徽章
+     * @param uid 用户id
+     * @param itemId 徽章id
+     * @return 有效的徽章数量
+     */
     public Integer getCountByValidItemId(Long uid, Long itemId) {
         return lambdaQuery().eq(UserBackpack::getUid, uid)
                 .eq(UserBackpack::getItemId, itemId)

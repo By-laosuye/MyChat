@@ -62,9 +62,15 @@ public class UserServiceImpl implements UserService {
         return insert.getId();
     }
 
+    /**
+     * 获取用户信息
+     * @param uid 用户id
+     * @return 用户信息
+     */
     @Override
     public UserInfoResp getUserInfo(Long uid) {
         User user = userDao.getById(uid);
+        //获取有效的徽章
         Integer modifyNameCount = userBackpackDao.getCountByValidItemId(uid, ItemEnum.MODIFY_NAME_CARD.getId());
         return UserAdapter.buildUserInfo(user, modifyNameCount);
     }
