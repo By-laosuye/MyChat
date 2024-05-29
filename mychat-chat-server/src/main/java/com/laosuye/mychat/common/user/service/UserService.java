@@ -32,6 +32,11 @@ public interface UserService {
      */
     UserInfoResp getUserInfo(Long uid);
 
+    /**
+     * 修改名称
+     * @param uid uid
+     * @param name 名称
+     */
     void modifyName(Long uid, String name);
 
     List<BadgeResp> badges(Long uid);

@@ -75,6 +75,11 @@ public class UserServiceImpl implements UserService {
         return UserAdapter.buildUserInfo(user, modifyNameCount);
     }
 
+    /**
+     * 修改名称
+     * @param uid uid
+     * @param name 名称
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void modifyName(Long uid, String name) {
