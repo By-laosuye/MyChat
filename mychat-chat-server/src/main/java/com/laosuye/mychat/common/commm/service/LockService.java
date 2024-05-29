@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
+/**
+ * 分布式锁服务Redisson
+ * @author 老苏叶
+ */
 @Service
 public class LockService {
 

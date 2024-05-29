@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
+/**
+ * 分布式锁注解的AOP
+ */
 @Component
 @Aspect
 @Order(0)

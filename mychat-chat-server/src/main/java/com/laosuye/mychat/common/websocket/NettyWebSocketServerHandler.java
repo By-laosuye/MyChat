@@ -68,13 +68,19 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
     /**
      * 用户统一下线处理
      *
-     * @param channel
+     * @param channel 通道
      */
     private void userOffline(Channel channel) {
         webSocketService.remove(channel);
         channel.close();
     }
 
+    /**
+     * 根据不同的type做不同的处理
+     * @param ctx 处理数据的上下文
+     * @param msg 消息
+     * @throws Exception 异常
+     */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
         String text = msg.text();

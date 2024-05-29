@@ -8,7 +8,8 @@ import java.lang.annotation.Target;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 分布式锁
+ * 分布式锁注解
+ * @author 老苏叶
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
