@@ -57,6 +57,13 @@ public class UserAdapter {
         return resp;
     }
 
+    /**
+     * 构建徽章列表
+     * @param itemConfigs 徽章配置列表
+     * @param backpacks 用户背包列表
+     * @param user 用户信息
+     * @return
+     */
     public static List<BadgeResp> buildBadgeResp(List<ItemConfig> itemConfigs, List<UserBackpack> backpacks, User user) {
         Set<Long> obtainItemSet = backpacks.stream().map(UserBackpack::getItemId).collect(Collectors.toSet());
         return itemConfigs.stream().map(a -> {

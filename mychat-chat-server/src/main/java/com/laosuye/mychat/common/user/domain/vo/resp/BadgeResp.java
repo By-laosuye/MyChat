@@ -4,6 +4,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+/**
+ * 徽章信息
+ */
 @Data
 @ApiModel(value="BadgeResp对象", description="用户徽章详细信息")
 public class BadgeResp {

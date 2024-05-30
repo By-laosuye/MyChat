@@ -27,12 +27,22 @@ public class UserDao extends ServiceImpl<UserMapper, User> {
         return lambdaQuery().eq(User::getOpenId, openId).one();
     }
 
+    /**
+     * 根据用户名查用户信息
+     * @param name 用户名
+     * @return  用户信息
+     */
     public User getByName(String name) {
         return lambdaQuery()
                 .eq(User::getName, name)
                 .one();
     }
 
+    /**
+     * 修改用户名
+     * @param uid 用户id
+     * @param name 用户名
+     */
     public void modifyName(Long uid, String name) {
         lambdaUpdate()
                 .eq(User::getId, uid)
@@ -40,6 +50,11 @@ public class UserDao extends ServiceImpl<UserMapper, User> {
                 .update();
     }
 
+    /**
+     * 佩戴徽章
+     * @param uid 用户id
+     * @param itemId 徽章id
+     */
     public void wearingBadge(Long uid, Long itemId) {
         lambdaUpdate()
                 .eq(User::getId, uid)

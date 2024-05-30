@@ -3,6 +3,9 @@ package com.laosuye.mychat.common.commm.exception;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * 通用错误枚举
+ */
 @AllArgsConstructor
 @Getter
 public enum CommonErrorEnum implements ErrorEnum {
@@ -11,8 +14,8 @@ public enum CommonErrorEnum implements ErrorEnum {
     PARAM_INVALID(-2, "参数校验失败"),
     LOCK_LIMIT(-3, "请求频繁，请稍后再试！");
 
-    private Integer code;
-    private String msg;
+    private final Integer code;
+    private final String msg;
 
     @Override
     public Integer getErrorCode() {

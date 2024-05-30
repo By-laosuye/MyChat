@@ -39,8 +39,18 @@ public interface UserService {
      */
     void modifyName(Long uid, String name);
 
+    /**
+     * 可选徽章列表
+     * @param uid 用户id
+     * @return 徽章列表
+     */
     List<BadgeResp> badges(Long uid);
 
+    /**
+     * 佩戴徽章
+     * @param uid 用户id
+     * @param itemId 徽章id
+     */
     void wearingBadge(Long uid, Long itemId);
 
     void black(BlackReq req);

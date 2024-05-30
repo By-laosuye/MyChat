@@ -37,7 +37,7 @@ public class AssertUtil {
      */
     public static <T> void fastFailValidate(T obj) {
         Set<ConstraintViolation<T>> constraintViolations = failFastValidator.validate(obj);
-        if (constraintViolations.size() > 0) {
+        if (!constraintViolations.isEmpty()) {
             throwException(CommonErrorEnum.PARAM_INVALID, constraintViolations.iterator().next().getMessage());
         }
     }
@@ -49,7 +49,7 @@ public class AssertUtil {
      */
     public static <T> void allCheckValidateThrow(T obj) {
         Set<ConstraintViolation<T>> constraintViolations = validator.validate(obj);
-        if (constraintViolations.size() > 0) {
+        if (!constraintViolations.isEmpty()) {
             StringBuilder errorMsg = new StringBuilder();
             Iterator<ConstraintViolation<T>> iterator = constraintViolations.iterator();
             while (iterator.hasNext()) {
@@ -70,7 +70,7 @@ public class AssertUtil {
      */
     public static <T> Map<String, String> allCheckValidate(T obj) {
         Set<ConstraintViolation<T>> constraintViolations = validator.validate(obj);
-        if (constraintViolations.size() > 0) {
+        if (!constraintViolations.isEmpty()) {
             Map<String, String> errorMessages = new HashMap<>();
             Iterator<ConstraintViolation<T>> iterator = constraintViolations.iterator();
             while (iterator.hasNext()) {

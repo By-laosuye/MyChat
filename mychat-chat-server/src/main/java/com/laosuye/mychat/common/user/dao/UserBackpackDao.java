@@ -34,6 +34,12 @@ public class UserBackpackDao extends ServiceImpl<UserBackpackMapper, UserBackpac
                 .count();
     }
 
+    /**
+     * 获取有效的改名卡
+     * @param uid 用户id
+     * @param itemId 道具id
+     * @return  有效的改名卡数量
+     */
     public UserBackpack getFirstValidItem(Long uid, Long itemId) {
         return lambdaQuery().eq(UserBackpack::getUid, uid)
                 .eq(UserBackpack::getItemId, itemId)
@@ -43,6 +49,11 @@ public class UserBackpackDao extends ServiceImpl<UserBackpackMapper, UserBackpac
                 .one();
     }
 
+    /**
+     * 使用道具
+     * @param item 道具
+     * @return 是否使用成功
+     */
     public boolean useItem(UserBackpack item) {
         return lambdaUpdate()
                 .eq(UserBackpack::getId, item.getId())
@@ -51,6 +62,12 @@ public class UserBackpackDao extends ServiceImpl<UserBackpackMapper, UserBackpac
                 .update();
     }
 
+    /**
+     * 根据徽章id获取用户背包中道具列表
+     * @param uid 用户id
+     * @param itemId 徽章id
+     * @return 道具列表
+     */
     public List<UserBackpack> getByItemIds(Long uid, List<Long> itemId) {
         return lambdaQuery()
                 .eq(UserBackpack::getUid, uid)

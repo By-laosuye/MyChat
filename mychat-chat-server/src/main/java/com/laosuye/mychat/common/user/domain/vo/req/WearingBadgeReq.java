@@ -6,6 +6,9 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * 佩戴徽章请求参数
+ */
 @Data
 public class WearingBadgeReq {
 

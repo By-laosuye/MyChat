@@ -11,10 +11,17 @@ import org.springframework.context.annotation.Primary;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * spring本地缓存
+ */
 @EnableCaching
 @Configuration
 public class CacheConfig extends CachingConfigurerSupport {
 
+    /**
+     * 换成咖啡因缓存
+     * @return CacheManager
+     */
     @Bean("caffeineCacheManager")
     @Primary
     public CacheManager caffeineCacheManager() {

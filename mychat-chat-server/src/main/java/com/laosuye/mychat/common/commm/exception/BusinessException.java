@@ -1,8 +1,13 @@
 package com.laosuye.mychat.common.commm.exception;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+/**
+ * 业务异常类
+ */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class BusinessException extends RuntimeException {
 
     protected Integer errorCode;

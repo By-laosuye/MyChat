@@ -19,6 +19,11 @@ import java.util.List;
 @Service
 public class ItemConfigDao extends ServiceImpl<ItemConfigMapper, ItemConfig> {
 
+    /**
+     * 根据itemType获取所有的item
+     * @param itemType 徽章类型
+     * @return 徽章列表
+     */
     public List<ItemConfig> getByType(Integer itemType) {
         return lambdaQuery()
                 .eq(ItemConfig::getType, itemType)

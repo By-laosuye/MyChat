@@ -6,6 +6,9 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * 修改用户名请求参数
+ */
 @Data
 public class ModifyNameReq {
 

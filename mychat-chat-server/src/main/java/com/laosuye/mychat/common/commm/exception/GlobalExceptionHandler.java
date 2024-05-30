@@ -6,10 +6,18 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * 全局异常处理
+ */
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    /**
+     * 参数校验异常
+     * @param e 异常
+     * @return ApiResult
+     */
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ApiResult<?> methodArgumentNotValidException(MethodArgumentNotValidException e) {
         StringBuilder errorMsg = new StringBuilder();
@@ -21,8 +29,8 @@ public class GlobalExceptionHandler {
 
     /**
      * 最后一道防线
-     * @param e
-     * @return
+     * @param e 异常
+     * @return ApiResult
      */
     @ExceptionHandler(value = BusinessException.class)
     public ApiResult<?> businessException(BusinessException e) {
@@ -33,8 +41,8 @@ public class GlobalExceptionHandler {
 
     /**
      * 最后一道防线
-     * @param e
-     * @return
+     * @param e 异常
+     * @return ApiResult
      */
     @ExceptionHandler(value = Throwable.class)
     public ApiResult<?> throwable(Throwable e) {

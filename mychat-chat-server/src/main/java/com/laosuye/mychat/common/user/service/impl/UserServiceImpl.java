@@ -95,9 +95,14 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * 可选徽章列表
+     * @param uid 用户id
+     * @return 徽章列表
+     */
     @Override
     public List<BadgeResp> badges(Long uid) {
-        //查询所有徽章
+        //从缓存中查询所有徽章
         List<ItemConfig> itemConfigs = itemCache.getByType(ItemTypeEnum.BADGE.getType());
         //查询用户拥有的徽章
         List<UserBackpack> backpacks = userBackpackDao.getByItemIds(uid, itemConfigs.stream().map(ItemConfig::getId).collect(Collectors.toList()));
@@ -106,6 +111,11 @@ public class UserServiceImpl implements UserService {
         return UserAdapter.buildBadgeResp(itemConfigs, backpacks, user);
     }
 
+    /**
+     * 佩戴徽章
+     * @param uid 用户id
+     * @param itemId 徽章id
+     */
     @Override
     public void wearingBadge(Long uid, Long itemId) {
         //确保有徽章
