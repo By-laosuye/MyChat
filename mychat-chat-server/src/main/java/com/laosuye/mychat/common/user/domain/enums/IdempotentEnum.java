@@ -3,6 +3,9 @@ package com.laosuye.mychat.common.user.domain.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * 幂等类型枚举
+ */
 @AllArgsConstructor
 @Getter
 public enum IdempotentEnum {

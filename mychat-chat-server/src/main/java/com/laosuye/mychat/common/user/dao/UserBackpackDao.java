@@ -77,6 +77,11 @@ public class UserBackpackDao extends ServiceImpl<UserBackpackMapper, UserBackpac
 
     }
 
+    /**
+     * 根据幂等标识获取用户背包道具
+     * @param idempotent 幂等标识
+     * @return 用户背包道具
+     */
     public UserBackpack getByIdempotent(String idempotent) {
         return lambdaQuery()
                 .eq(UserBackpack::getIdempotent, idempotent)

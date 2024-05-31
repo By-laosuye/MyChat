@@ -21,6 +21,16 @@ public class LockService {
     @Autowired
     private RedissonClient redissonClient;
 
+    /**
+     *
+     * 执行带有分布式锁的业务逻辑
+     * @param key 锁的key
+     * @param waitTime 等待时间
+     * @param timeUnit 时间单位
+     * @param supplier 业务逻辑
+     * @return 返回业务逻辑的结果
+     * @param <T> 返回值类型
+     */
     @SneakyThrows
     public <T> T executeWithLock(String key, int waitTime, TimeUnit timeUnit, Supplier<T> supplier) {
         RLock lock = redissonClient.getLock(key);
@@ -36,11 +46,26 @@ public class LockService {
     }
 
 
+    /**
+     * 执行带有分布式锁的业务逻辑
+     * @param key 锁的key
+     * @param supplier 业务逻辑
+     * @return 返回业务逻辑的结果
+     * @param <T> 返回值类型
+     */
     @SneakyThrows
     public <T> T executeWithLock(String key, Supplier<T> supplier) {
         return executeWithLock(key, -1, TimeUnit.MILLISECONDS, supplier);
     }
 
+
+    /**
+     * 执行带有分布式锁的业务逻辑
+     * @param key 锁的key
+     * @param runnable 业务逻辑
+     * @return  返回业务逻辑的结果
+     * @param <T> 返回值类型
+     */
     @SneakyThrows
     public <T> T executeWithLock(String key, Runnable runnable) {
         return executeWithLock(key, -1, TimeUnit.MILLISECONDS, () -> {
@@ -49,6 +74,11 @@ public class LockService {
         });
     }
 
+
+    /**
+     * 执行带有分布式锁的业务逻辑
+     * @param <T> 类型
+     */
     @FunctionalInterface
     public interface Supplier<T> {
 

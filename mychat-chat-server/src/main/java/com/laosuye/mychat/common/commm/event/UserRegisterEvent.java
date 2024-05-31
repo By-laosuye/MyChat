@@ -4,6 +4,9 @@ import com.laosuye.mychat.common.user.domain.entity.User;
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 
+/**
+ * 用户注册事件
+ */
 @Getter
 public class UserRegisterEvent extends ApplicationEvent {
 

@@ -14,6 +14,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
+/**
+ * 用户注册事件监听器
+ */
 @Component
 public class UserRegisterListener {
 

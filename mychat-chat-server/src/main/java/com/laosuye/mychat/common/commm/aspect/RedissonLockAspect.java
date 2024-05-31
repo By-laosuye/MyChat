@@ -20,7 +20,7 @@ import java.util.Objects;
  */
 @Component
 @Aspect
-@Order(0)
+@Order(0)//确保在事务之前执行
 public class RedissonLockAspect {
 
     @Autowired
@@ -28,8 +28,11 @@ public class RedissonLockAspect {
 
     @Around("@annotation(redissonLock)")
     public Object around(ProceedingJoinPoint joinPoint, RedissonLock redissonLock) {
+        //获取方法签名
         Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
+        //获取注解参数
         String prefix = StringUtils.isBlank(redissonLock.prefixKey()) ? SpElUtils.getMethodKey(method) : redissonLock.prefixKey();
+        //获取key
         String key = SpElUtils.parseSpEl(method, joinPoint.getArgs(), redissonLock.key());
         return lockService.executeWithLock(prefix + ":" + key, redissonLock.waitTime(), redissonLock.unit(), joinPoint::proceed);
     }
