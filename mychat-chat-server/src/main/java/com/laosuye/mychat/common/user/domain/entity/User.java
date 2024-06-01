@@ -102,10 +102,18 @@ public class User implements Serializable {
     private Date updateTime;
 
 
+    /**
+     * 刷新IP信息。
+     * 该方法用于更新当前IP信息。如果ipInfo对象尚未初始化，则首先创建一个新的IpInfo实例，然后调用其refreshIp方法以刷新IP信息。
+     *
+     * @param ip 需要刷新的IP地址字符串。
+     */
     public void refreshIp(String ip) {
+        // 如果ipInfo对象为空，则先初始化为新的IpInfo实例，再刷新IP信息
         if (ipInfo == null){
             ipInfo = new IpInfo();
             ipInfo.refreshIp(ip);
         }
     }
+
 }

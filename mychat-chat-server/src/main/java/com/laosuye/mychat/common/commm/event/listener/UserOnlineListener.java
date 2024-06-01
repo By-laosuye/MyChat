@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
+/**
+ * 用户上线事件监听器
+ */
 @Component
 public class UserOnlineListener {
 
@@ -27,16 +30,23 @@ public class UserOnlineListener {
     @Autowired
     private IpService ipService;
 
+    /**
+     * 异步处理用户上线事件，在事务提交后执行，如果执行失败则尝试重新执行。
+     * 该方法用于更新用户在线状态和IP信息到数据库，并异步刷新IP详情。
+     *
+     * @param event 用户上线事件，包含需要更新的用户信息。
+     */
     @Async
-    @TransactionalEventListener(classes = UserOnlineEvent.class, phase = TransactionPhase.AFTER_COMMIT,fallbackExecution = true)
+    @TransactionalEventListener(classes = UserOnlineEvent.class, phase = TransactionPhase.AFTER_COMMIT, fallbackExecution = true)
     public void saveDB(UserOnlineEvent event) {
-        User user = event.getUser();
-        User update = new User();
-        update.setId(user.getId());
-        update.setLastOptTime(user.getLastOptTime());
-        update.setIpInfo(user.getIpInfo());
-        update.setActiveStatus(UserActiveStatusEnum.ONLINE.getStatus());
-        userDao.updateById(update);
-        ipService.refreshIpDetailAsync(user.getId());
+        User user = event.getUser(); // 从事件中获取用户信息
+        User update = new User(); // 创建一个用户对象用于更新
+        update.setId(user.getId()); // 设置用户ID
+        update.setLastOptTime(user.getLastOptTime()); // 设置最后操作时间
+        update.setIpInfo(user.getIpInfo()); // 设置IP信息
+        update.setActiveStatus(UserActiveStatusEnum.ONLINE.getStatus()); // 设置用户活跃状态为在线
+        userDao.updateById(update); // 更新用户信息到数据库
+        ipService.refreshIpDetailAsync(user.getId()); // 异步刷新用户的IP详情
     }
+
 }

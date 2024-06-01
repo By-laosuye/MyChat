@@ -14,6 +14,7 @@ import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -21,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
  * @version 1.0
  * @data 2023/9/08/15:18
  */
+@Slf4j
 public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
     private WebSocketService webSocketService;
@@ -63,6 +65,13 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
                 userOffline(ctx.channel());
             }
         }
+    }
+
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        log.error("Exception caught in ChannelHandlerContext: {}", ctx.channel().remoteAddress(), cause);
+        super.exceptionCaught(ctx, cause);
     }
 
     /**

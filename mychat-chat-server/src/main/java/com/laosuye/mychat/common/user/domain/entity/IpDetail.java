@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
+
+/**
+ * IP详细信息
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
