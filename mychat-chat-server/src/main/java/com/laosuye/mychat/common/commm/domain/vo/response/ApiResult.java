@@ -1,4 +1,4 @@
-package com.laosuye.mychat.common.commm.domain.vo.resp;
+package com.laosuye.mychat.common.commm.domain.vo.response;
 
 import com.laosuye.mychat.common.commm.exception.ErrorEnum;
 import io.swagger.annotations.ApiModel;

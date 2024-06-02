@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 
 /**
- * @author zhongzb
+ * @author laosuye
  * @date 2021/05/27
  */
 @SpringBootApplication(scanBasePackages = {"com.laosuye.mychat"})

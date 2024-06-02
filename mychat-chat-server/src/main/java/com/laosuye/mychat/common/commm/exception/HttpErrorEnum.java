@@ -2,7 +2,7 @@ package com.laosuye.mychat.common.commm.exception;
 
 import cn.hutool.http.ContentType;
 import com.google.common.base.Charsets;
-import com.laosuye.mychat.common.commm.domain.vo.resp.ApiResult;
+import com.laosuye.mychat.common.commm.domain.vo.response.ApiResult;
 import com.laosuye.mychat.common.commm.util.JsonUtils;
 import lombok.AllArgsConstructor;
 

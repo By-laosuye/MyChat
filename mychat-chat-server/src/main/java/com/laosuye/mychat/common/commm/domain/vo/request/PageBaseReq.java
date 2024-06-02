@@ -1,4 +1,4 @@
-package com.laosuye.mychat.common.commm.domain.vo.req;
+package com.laosuye.mychat.common.commm.domain.vo.request;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.ApiModel;

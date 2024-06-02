@@ -1,23 +1,21 @@
 package com.laosuye.mychat.common.user.controller;
 
 
-import com.laosuye.mychat.common.commm.domain.vo.resp.ApiResult;
+import com.laosuye.mychat.common.commm.domain.vo.response.ApiResult;
 import com.laosuye.mychat.common.commm.util.AssertUtil;
 import com.laosuye.mychat.common.commm.util.RequestHolder;
 import com.laosuye.mychat.common.user.domain.enums.RoleEnum;
-import com.laosuye.mychat.common.user.domain.vo.req.BlackReq;
-import com.laosuye.mychat.common.user.domain.vo.req.ModifyNameReq;
-import com.laosuye.mychat.common.user.domain.vo.req.WearingBadgeReq;
-import com.laosuye.mychat.common.user.domain.vo.resp.BadgeResp;
-import com.laosuye.mychat.common.user.domain.vo.resp.UserInfoResp;
+import com.laosuye.mychat.common.user.domain.vo.request.BlackReq;
+import com.laosuye.mychat.common.user.domain.vo.request.ModifyNameReq;
+import com.laosuye.mychat.common.user.domain.vo.request.WearingBadgeReq;
+import com.laosuye.mychat.common.user.domain.vo.response.BadgeResp;
+import com.laosuye.mychat.common.user.domain.vo.response.UserInfoResp;
 import com.laosuye.mychat.common.user.service.IRoleService;
 import com.laosuye.mychat.common.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.stereotype.Controller;
 
 import javax.validation.Valid;
 import java.util.List;

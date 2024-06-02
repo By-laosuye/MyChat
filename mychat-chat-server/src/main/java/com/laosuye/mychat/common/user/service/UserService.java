@@ -1,10 +1,9 @@
 package com.laosuye.mychat.common.user.service;
 
 import com.laosuye.mychat.common.user.domain.entity.User;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.laosuye.mychat.common.user.domain.vo.req.BlackReq;
-import com.laosuye.mychat.common.user.domain.vo.resp.BadgeResp;
-import com.laosuye.mychat.common.user.domain.vo.resp.UserInfoResp;
+import com.laosuye.mychat.common.user.domain.vo.request.BlackReq;
+import com.laosuye.mychat.common.user.domain.vo.response.BadgeResp;
+import com.laosuye.mychat.common.user.domain.vo.response.UserInfoResp;
 
 import java.util.List;
 

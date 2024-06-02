@@ -1,6 +1,6 @@
 package com.laosuye.mychat.common.commm.exception;
 
-import com.laosuye.mychat.common.commm.domain.vo.resp.ApiResult;
+import com.laosuye.mychat.common.commm.domain.vo.response.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;

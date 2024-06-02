@@ -1,4 +1,4 @@
-package com.laosuye.mychat.common.commm.domain.vo.resp;
+package com.laosuye.mychat.common.commm.domain.vo.response;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

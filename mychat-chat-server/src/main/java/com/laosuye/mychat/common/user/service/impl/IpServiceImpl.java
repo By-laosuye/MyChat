@@ -5,9 +5,7 @@ import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.thread.NamedThreadFactory;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
-import com.laosuye.mychat.common.commm.domain.vo.resp.ApiResult;
-import com.laosuye.mychat.common.commm.domain.vo.resp.IpResult;
-import com.laosuye.mychat.common.commm.util.JsonUtils;
+import com.laosuye.mychat.common.commm.domain.vo.response.IpResult;
 import com.laosuye.mychat.common.user.dao.UserDao;
 import com.laosuye.mychat.common.user.domain.entity.IpDetail;
 import com.laosuye.mychat.common.user.domain.entity.IpInfo;
@@ -21,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;

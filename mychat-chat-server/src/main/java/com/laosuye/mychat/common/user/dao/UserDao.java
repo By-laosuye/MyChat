@@ -7,6 +7,8 @@ import com.laosuye.mychat.common.user.mapper.UserMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户表 服务实现类
@@ -79,5 +81,23 @@ public class UserDao extends ServiceImpl<UserMapper, User> {
                 .set(User::getStatus, YesOrNoEnum.YES.getStatus())
                 // 执行更新操作
                 .update();
+    }
+
+    /**
+     * 根据用户ID列表获取用户的朋友列表。
+     *
+     * 本方法通过使用Lambda查询语法，从用户ID列表中筛选出指定的用户，并返回这些用户的部分信息。
+     * 这些信息包括用户ID、激活状态、姓名和头像URL。
+     *
+     * @param uids 用户ID列表，用于指定需要查询的用户。
+     * @return 返回一个用户列表，包含指定ID用户的部分信息。
+     */
+    public List<User> getFriendList(List<Long> uids) {
+        // 使用LambdaQuery语法进行查询，指定查询条件为ID在uids列表中，
+        // 选择返回的字段为ID、激活状态、姓名和头像URL。
+        return lambdaQuery()
+                .in(User::getId, uids)
+                .select(User::getId, User::getActiveStatus, User::getName, User::getAvatar)
+                .list();
     }
 }

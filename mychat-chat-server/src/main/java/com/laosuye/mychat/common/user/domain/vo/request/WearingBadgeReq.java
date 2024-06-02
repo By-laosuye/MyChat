@@ -1,8 +1,7 @@
-package com.laosuye.mychat.common.user.domain.vo.req;
+package com.laosuye.mychat.common.user.domain.vo.request;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
 

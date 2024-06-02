@@ -1,4 +1,4 @@
-package com.laosuye.mychat.common.user.domain.vo.resp;
+package com.laosuye.mychat.common.user.domain.vo.response;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

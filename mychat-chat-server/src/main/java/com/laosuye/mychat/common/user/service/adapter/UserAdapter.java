@@ -5,8 +5,8 @@ import com.laosuye.mychat.common.commm.domain.enums.YesOrNoEnum;
 import com.laosuye.mychat.common.user.domain.entity.ItemConfig;
 import com.laosuye.mychat.common.user.domain.entity.User;
 import com.laosuye.mychat.common.user.domain.entity.UserBackpack;
-import com.laosuye.mychat.common.user.domain.vo.resp.BadgeResp;
-import com.laosuye.mychat.common.user.domain.vo.resp.UserInfoResp;
+import com.laosuye.mychat.common.user.domain.vo.response.BadgeResp;
+import com.laosuye.mychat.common.user.domain.vo.response.UserInfoResp;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 
 import java.util.Comparator;
