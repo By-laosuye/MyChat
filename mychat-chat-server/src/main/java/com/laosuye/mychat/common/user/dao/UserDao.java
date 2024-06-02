@@ -62,10 +62,22 @@ public class UserDao extends ServiceImpl<UserMapper, User> {
                 .update();
     }
 
+    /**
+     * 将指定用户的狀態設置為无效。
+     *
+     * 此方法通过Lambda更新方式，修改用户表中指定UID用户的状态为无效（即，设置为YesOrNoEnum.YES的状态值）。
+     * 主要用于处理需要标记用户为无效的情况，例如用户违规、账号注销等。
+     *
+     * @param uid 用户ID，用于指定需要更新状态的用户。
+     */
     public void invalidUid(Long uid) {
+        // 使用Lambda表达式方式更新用户状态
         lambdaUpdate()
+                // 指定更新条件：用户ID等于uid
                 .eq(User::getId, uid)
+                // 设置更新内容：用户状态为无效
                 .set(User::getStatus, YesOrNoEnum.YES.getStatus())
+                // 执行更新操作
                 .update();
     }
 }

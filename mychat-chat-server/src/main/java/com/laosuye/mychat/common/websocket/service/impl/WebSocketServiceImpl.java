@@ -174,14 +174,26 @@ public class WebSocketServiceImpl implements WebSocketService {
         }
     }
 
+    /**
+     * 发送消息给所有在线的WebSocket客户端。
+     * 此方法遍历在线客户端的映射表，并为每个在线客户端提交一个任务，以异步方式发送消息。
+     * 使用线程池执行发送任务，以避免因大量并发导致的性能问题。
+     *
+     * @param msg 要发送的消息对象，泛型设计允许发送不同类型的消息。
+     *             该消息对象应包含具体的发送逻辑，本方法负责调度执行。
+     */
     @Override
     public void sendMsgToAll(WSBaseResp<?> msg) {
+        // 遍历在线客户端映射表，对每个在线客户端提交发送消息的任务
         ONLINE_WS_MAP.forEach((channel, etx) -> {
+            // 使用线程池执行发送消息的任务，避免直接创建线程的开销
             threadPoolTaskExecutor.execute(() -> {
+                // 实际发送消息的逻辑，该方法应包含具体的发送细节
                 sendMsg(channel, msg);
             });
         });
     }
+
 
     /**
      * 登陆成功后绑定uid

@@ -44,5 +44,9 @@ public interface WebSocketService {
      */
     void authorize(Channel channel, String token);
 
+    /**
+     * 给所有在线用户发送消息
+     * @param msg 消息
+     */
     void sendMsgToAll(WSBaseResp<?> msg);
 }

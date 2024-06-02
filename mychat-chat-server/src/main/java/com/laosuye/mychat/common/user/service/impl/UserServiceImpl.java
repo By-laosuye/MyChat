@@ -18,6 +18,8 @@ import com.laosuye.mychat.common.user.service.UserService;
 import com.laosuye.mychat.common.user.service.adapter.UserAdapter;
 import com.laosuye.mychat.common.user.service.cache.ItemCache;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,7 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     @Autowired
     private UserDao userDao;
 
@@ -50,6 +53,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 用户注册
+     *
      * @param insert 注册用户信息
      * @return 用户id
      */
@@ -64,6 +68,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 获取用户信息
+     *
      * @param uid 用户id
      * @return 用户信息
      */
@@ -77,7 +82,8 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 修改名称
-     * @param uid uid
+     *
+     * @param uid  uid
      * @param name 名称
      */
     @Override
@@ -97,6 +103,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 可选徽章列表
+     *
      * @param uid 用户id
      * @return 徽章列表
      */
@@ -113,7 +120,8 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 佩戴徽章
-     * @param uid 用户id
+     *
+     * @param uid    用户id
      * @param itemId 徽章id
      */
     @Override
@@ -128,31 +136,66 @@ public class UserServiceImpl implements UserService {
         userDao.wearingBadge(uid, itemId);
     }
 
+    /**
+     * 将指定用户添加到黑名单中。
+     * 此方法不仅将用户ID保存到黑名单表中，同时也会尝试屏蔽该用户相关的IP地址。
+     * 并且，通过发布一个用户被屏蔽事件来通知其他感兴趣的组件或服务。
+     *
+     * @param req 包含需要被屏蔽的用户ID的信息。
+     * @Transactional 注解确保此方法执行的过程中，所有的数据库操作都被视为一个单一的事务，
+     * 并且在遇到异常时自动回滚。
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void black(BlackReq req) {
+        // 获取需要被屏蔽的用户ID
         Long uid = req.getUid();
+
+        // 创建一个新的黑名单条目，标记类型为UID，并设置目标为用户ID
         Black user = new Black();
         user.setType(BlackTypeEnum.UID.getType());
         user.setTarget(uid.toString());
+        // 将此黑名单条目保存到数据库
         blackDao.save(user);
+
+        // 尝试获取用户的IP信息，以便后续可能的屏蔽操作
         User byId = userDao.getById(uid);
+
+        // 尝试屏蔽用户的创建IP
         blackIp(Optional.ofNullable(byId.getIpInfo()).map(IpInfo::getCreateIp).orElse(null));
+        // 尝试屏蔽用户的更新IP
         blackIp(Optional.ofNullable(byId.getIpInfo()).map(IpInfo::getUpdateIp).orElse(null));
+
+        // 发布一个用户被屏蔽事件，通知其他组件或服务
         applicationEventPublisher.publishEvent(new UserBlackEvent(this, byId));
     }
 
+
+    /**
+     * 将指定的IP地址添加到黑名单中。
+     * 如果IP地址为空或不合法，则不进行任何操作。
+     * 添加IP地址到黑名单的过程是尝试性的，如果出现异常，则打印异常堆栈跟踪。
+     *
+     * @param ip 待添加到黑名单的IP地址。
+     */
     private void blackIp(String ip) {
+        // 检查IP地址是否为空或不合法，如果是，则直接返回。
         if (StringUtils.isBlank(ip)) {
             return;
         }
         try {
+            // 创建一个新的黑名单记录对象。
             Black inset = new Black();
+            // 设置黑名单记录的类型为IP。
             inset.setType(BlackTypeEnum.IP.getType());
+            // 设置黑名单记录的目标为指定的IP地址。
             inset.setTarget(ip);
+            // 尝试将新的黑名单记录保存到数据库中。
             blackDao.save(inset);
         } catch (Exception e) {
-            e.printStackTrace();
+            // 如果在保存过程中发生异常，则打印异常信息。
+            log.error("添加黑名单异常", e);
         }
     }
+
 }
