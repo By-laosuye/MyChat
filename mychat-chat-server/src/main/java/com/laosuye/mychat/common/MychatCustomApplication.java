@@ -12,10 +12,10 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 @SpringBootApplication(scanBasePackages = {"com.laosuye.mychat"})
 @MapperScan({"com.laosuye.mychat.common.**.mapper"})
 //@ServletComponentScan
-public class MychatCustomApplication {
+public class MyChatCustomApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MychatCustomApplication.class,args);
+        SpringApplication.run(MyChatCustomApplication.class,args);
     }
 
 }
